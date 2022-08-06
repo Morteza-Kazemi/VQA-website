@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import './Main-card.css'
 
-const UploadSection = () => {
+const MainCard = () => {
 
     const [selectedFile, setSelectedFile] = useState(null); // Initially, no file is selected
     const [inputQuestion, setInputQuestion] = useState("");
@@ -14,7 +14,7 @@ const UploadSection = () => {
             {fileData(selectedFile)}
             <input className="question-input" type="text" placeholder="Enter your question here!"
                    onChange={ (event)=> setInputQuestion(event.target.value) }
-            /> {/*//todo check this!*/}
+            />
 
             <button className="upload-button" onClick={() => onFileUpload(setErrorTxt, selectedFile, inputQuestion)}>
                 Upload!
@@ -51,7 +51,7 @@ const onFileUpload = (setErrorTxt, selectedFile, inputQuestion) => { // On file 
 const fileData = (selectedFile) => {
     if (selectedFile) {
         return (
-            <div className="image-frame">
+            <div>
                 <img src={URL.createObjectURL(selectedFile)} alt="alt text!"/>
                 {/*<p>File Type: {this.state.selectedFile.type}</p>*/}
             </div>
@@ -62,4 +62,4 @@ const fileData = (selectedFile) => {
 };
 
 
-export default UploadSection;
+export default MainCard;

@@ -1,18 +1,14 @@
 import './App.css';
-import UploadSection from './UploadSection'
+import MainCard from './components/MainCard/MainCard'
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
     <div className="App">
-        <div className="App-navbar">
-            visual qustion answering
-        </div>
+        <Navbar/>
 
         <header className="App-body">
-          <div className="upload-section">
-              <UploadSection/>
-              {/*<input type="file"/>*/}
-          </div>
+          <MainCard/>
 
           <div className="answer-section">
               this is the answer

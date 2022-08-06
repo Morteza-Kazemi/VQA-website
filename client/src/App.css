@@ -12,13 +12,3 @@
   color: white;
 }
 
-.App-navbar {
-  background-image: linear-gradient(#ffb153,#ffb153, #282c34);
-  /*background-color: #ffb153; !*#90B0FF*!*/
-  backdrop-filter: ;
-  font-size: 50px;
-  font-style: italic;
-  display: flex;
-  justify-content: center;
-  padding: 5px 0 40px;
-}
