@@ -1,0 +1,52 @@
+.main-card{
+
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*justify-content: center;*/
+
+    /*width: 500px;*/
+    /*height: 500px;*/
+    margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,1);
+    background-color: rgba(255, 255, 255, 0.253);
+    border-radius: 15px; /* 5px rounded corners */
+}
+
+.main-card  * {
+    margin-bottom: 10px;
+}
+
+.main-card .file-input{
+    /*content: "choose an image";*/
+    /*border: 1px solid #999;*/
+    width: 200px;
+}
+
+.main-card .file-input::-webkit-file-upload-button {
+    /*visibility: hidden;*/
+}
+
+.main-card img {
+    max-width: 100%;
+}
+
+.main-card .image-frame {
+    /*width: 80%;*/
+    /*height: 80%;*/
+}
+
+.main-card .question-input {
+    width: 100%;
+    height: 30px;
+    border-radius: 8px;
+}
+
+.main-card .upload-button {
+    border-radius: 8px;
+}
+
+.main-card .error-text {
+    color: #8c1111;
+}
