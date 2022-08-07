@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer')
 const path = require("path");
+const {spawn} = require('child_process');
 
 var app = express();
 var port = process.env.PORT || 4000;
@@ -45,8 +46,23 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
     if (!question){
         return res.status(400).send({ message: 'Please upload a question.' });
     }
+    //todo run the python code here and send the result!
+    let answer;
+    const python = spawn('python', ['../vqa/script1.py']); // spawn new child process to call the python script
+    // collect data from script
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        answer = data.toString();
+    });
+    // in close event we are sure that stream from child process is closed
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        // res.send(dataToSend)
+        console.log(answer)
+        return res.send({message: 'upload successful.', question, answer, image});
+    });
 
-    return res.send({message: 'upload successful.', question, image});
 });
 
 app.listen(port, () => {
