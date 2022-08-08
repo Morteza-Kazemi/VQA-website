@@ -17,7 +17,13 @@ num_workers = 8
 image_size = 224
 image_file_location = 'input/image.png'
 question_file_location = 'input/question.txt'
-model_location = "utils/model-epoch-02.ckpt"
+model_location = "utils/model-epoch-01.ckpt"
+
+args_embed_size = 1024
+args_word_embed_size = 300
+args_num_layers = 2
+args_hidden_size = 512
+
 
 
 def get_transformed_image(image_file):
@@ -55,22 +61,21 @@ def answer():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model_checkpoint = torch.load(model_location, map_location=device)
     model = VqaModel(
-        embed_size=args.embed_size,
-        qst_vocab_size=qst_vocab_size,
-        ans_vocab_size=ans_vocab_size,
-        word_embed_size=args.word_embed_size,
-        num_layers=args.num_layers,
-        hidden_size=args.hidden_size).to(device)
+        embed_size=args_embed_size,
+        qst_vocab_size=qst_vocab.vocab_size,
+        ans_vocab_size=ans_vocab.vocab_size,
+        word_embed_size=args_word_embed_size,
+        num_layers=args_num_layers,
+        hidden_size=args_hidden_size).to(device)
+    model.load_state_dict(model_checkpoint)
+    print("bug is fixed!")
 
-    if args.LOAD_CHECKPOINT:
-        model.load_state_dict(model_checkpoint)
-
-    
     model.eval()
 
     # model output: give the inputs to the model
     # todo: this replication is unnecessary and has too much overhead!
-    image = torch.stack( [image for i in range(batch_size)] )
+    image = torch.tensor( [image for i in range(batch_size)] )
+    # input("press enter to continue...")
     question = torch.tensor( [question for i in range(batch_size)] )
     image_tnsr = image.to(device)
     question_tnsr = question.to(device)
