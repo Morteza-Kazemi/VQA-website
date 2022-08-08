@@ -40,6 +40,7 @@ const onFileUpload = (setErrorTxt, selectedFile, inputQuestion) => { // On file 
         // Create an object of formData
         const formData = new FormData();
         // Update the formData object
+        // todo this function should convert the extension of the files to png! only png!
         formData.append("myFile", selectedFile, selectedFile.name);
 
         // Request made to the backend api
