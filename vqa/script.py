@@ -2,6 +2,7 @@ from utils.models import VqaModel # NOTE: this dude is neccessary!
 from utils import text_helper
 from utils.resize_images import resize_image
 
+import sys
 import argparse
 import numpy as np
 import torch
@@ -9,21 +10,21 @@ from PIL import Image
 import torchvision.transforms as transforms
 
 # arguments:
-input_dir = 'utils'
+root_dir_vqa = '../vqa/'
+input_dir = root_dir_vqa+'utils'
 max_qst_length = 30
 max_num_ans = 10
 batch_size = 128
 num_workers = 8
 image_size = 224
-image_file_location = 'input/image.png'
-question_file_location = 'input/question.txt'
-model_location = "utils/model-epoch-01.ckpt"
+image_file_location = root_dir_vqa+'input/image.png'
+question_file_location = root_dir_vqa+'input/question.txt'
+model_location = root_dir_vqa+"utils/model-epoch-01.ckpt"
 
 args_embed_size = 1024
 args_word_embed_size = 300
 args_num_layers = 2
 args_hidden_size = 512
-
 
 
 def get_transformed_image(image_file):
@@ -52,6 +53,7 @@ def get_converted_question(question_file, qst_vocab):
 
 
 def answer():
+    
     ans_vocab = text_helper.VocabDict(input_dir + '/vocab_answers.txt')
     qst_vocab = text_helper.VocabDict(input_dir + '/vocab_questions.txt')
 
@@ -68,25 +70,25 @@ def answer():
         num_layers=args_num_layers,
         hidden_size=args_hidden_size).to(device)
     model.load_state_dict(model_checkpoint)
-    print("bug is fixed!")
 
     model.eval()
 
     # model output: give the inputs to the model
     # todo: this replication is unnecessary and has too much overhead!
-    image = torch.tensor( [image for i in range(batch_size)] )
+    image = np.array( [image.numpy() for i in range(batch_size)] )
+    image = torch.tensor( image )
     # input("press enter to continue...")
-    question = torch.tensor( [question for i in range(batch_size)] )
+    question = torch.tensor( np.array( [np.array(question) for i in range(batch_size)] ) )
     image_tnsr = image.to(device)
     question_tnsr = question.to(device)
+    # input("press enter to continue...")
     output_tnsr = model(image_tnsr, question_tnsr)  # [batch_size, ans_vocab_size=1000]
-
     # convert the model output to raw answer
     for indx in range(1):  # one question only!
         maxx = torch.max(output_tnsr, 1)
         outp = maxx[1][indx]
         answer = str(ans_vocab.idx2word(outp))
-        print(answer)
+        print(answer, end='')
 
 
 
@@ -110,3 +112,4 @@ def answer():
 
 # print(VqaModel('oy!'))
 answer()
+sys.stdout.flush()
