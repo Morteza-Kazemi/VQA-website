@@ -27,24 +27,23 @@ const MainCard = () => {
 }
 
 
-const onFileUpload = (setErrorTxt, selectedFile, inputQuestion) => { // On file upload (click the upload button)
-    if(selectedFile == null){
+const onFileUpload = async (setErrorTxt, selectedFile, inputQuestion) => { // On file upload (click the upload button)
+    if (selectedFile == null) {
         setErrorTxt("select an image!");
-    }
-    else if(inputQuestion === ""){
+    } else if (inputQuestion === "") {
         setErrorTxt("type a question!");
-    }
-    else {
+    } else {
         setErrorTxt("");
 
         // Create an object of formData
         const formData = new FormData();
         // Update the formData object
         // todo this function should convert the extension of the files to png! only png!
-        formData.append("myFile", selectedFile, selectedFile.name);
-
+        formData.append("image", selectedFile, selectedFile.name);
+        formData.append("question", inputQuestion)
         // Request made to the backend api
-        // axios.post("api/uploadfile", formData); // Send formData object
+        const response = await axios.post("http://localhost:4000/upload-file", formData); // Send formData object
+        console.log(response)
     }
 };
 

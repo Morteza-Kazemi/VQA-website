@@ -60,7 +60,7 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
         console.log('Pipe data from python script ...');
         answer = data.toString();
     });
-    
+
     // in close event we are sure that stream from child process is closed
     python.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
