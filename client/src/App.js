@@ -7,13 +7,8 @@ function App() {
     <div className="App">
         <Navbar/>
 
-        <header className="App-body">
+        <header>
           <MainCard/>
-
-          <div className="answer-section">
-              this is the answer
-          </div>
-
         </header>
     </div>
   );

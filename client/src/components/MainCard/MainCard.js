@@ -7,27 +7,39 @@ const MainCard = () => {
     const [selectedFile, setSelectedFile] = useState(null); // Initially, no file is selected
     const [inputQuestion, setInputQuestion] = useState("");
     const [errorTxt, setErrorTxt] = useState("");
+    const [answer, setAnswer] = useState("");
+
+    let answer_section = <div className="answer-section">
+        {answer}
+    </div>;
 
     return (
-        <div className="main-card">
-            <input className="file-input" type="file" onChange={(event) => setSelectedFile(event.target.files[0])} />
-            {fileData(selectedFile)}
-            <input className="question-input" type="text" placeholder="Enter your question here!"
-                   onChange={ (event)=> setInputQuestion(event.target.value) }
-            />
+        <div className="App-body">
+            <div className="main-card">
+                <input className="file-input" type="file" onChange={(event) => setSelectedFile(event.target.files[0])}/>
+                {fileData(selectedFile)}
+                <input className="question-input" type="text" placeholder="Enter your question here!"
+                       onChange={(event) => setInputQuestion(event.target.value)}
+                />
 
-            <button className="upload-button" onClick={() => onFileUpload(setErrorTxt, selectedFile, inputQuestion)}>
-                Upload!
-            </button>
-            <div className="error-text">{errorTxt}</div>
+                <button className="upload-button"
+                        onClick={() => onFileUpload(setErrorTxt, setAnswer, selectedFile, inputQuestion)}>
+                    Upload!
+                </button>
+                <div className="error-text">{errorTxt}</div>
 
+            </div>
+
+            {/*todo this is sooo wrong! everything about it! change it asap*/}
+            {answer_section}
         </div>
     );
 
 }
 
 
-const onFileUpload = async (setErrorTxt, selectedFile, inputQuestion) => { // On file upload (click the upload button)
+const onFileUpload = async (setErrorTxt, setAnswer, selectedFile, inputQuestion) => { // On file upload (click the upload button)
+    setAnswer("")
     if (selectedFile == null) {
         setErrorTxt("select an image!");
     } else if (inputQuestion === "") {
@@ -35,15 +47,17 @@ const onFileUpload = async (setErrorTxt, selectedFile, inputQuestion) => { // On
     } else {
         setErrorTxt("");
 
-        // Create an object of formData
-        const formData = new FormData();
-        // Update the formData object
-        // todo this function should convert the extension of the files to png! only png!
-        formData.append("image", selectedFile, selectedFile.name);
-        formData.append("question", inputQuestion)
-        // Request made to the backend api
-        const response = await axios.post("http://localhost:4000/upload-file", formData); // Send formData object
-        console.log(response)
+    // Create an object of formData
+    const formData = new FormData();
+    // Update the formData object
+    // todo this function should convert the extension of the files to png! only png!
+    formData.append("image", selectedFile, selectedFile.name);
+    formData.append("question", inputQuestion);
+
+    setAnswer("running the model...");
+    // Request made to the backend api
+    const response = await axios.post("http://localhost:4000/upload-file", formData); // Send formData object
+    setAnswer(response.data.answer)
     }
 };
 

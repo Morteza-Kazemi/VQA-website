@@ -8,7 +8,7 @@
 # img = Image.open('input/image.png')
 
 # img.show()
-print("script is run!")
+print("answer!")
 # print(question)
 
 # print("hey! Python has run", end='')
