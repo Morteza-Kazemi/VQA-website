@@ -14,11 +14,12 @@ app.use(cors()); // enable CORS
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 // app.use('/uploads', express.static('uploads'));// serving static files //todo should I use this?!
+app.use(express.static(path.join(__dirname + "/public"))) // the build from the client
 
 // handle storage using multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../vqa/input');
+        cb(null, 'vqa/input');
     },
     filename: function (req, file, cb) {
         // cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
@@ -35,7 +36,7 @@ const upload = multer({storage: storage});
 app.post('/upload-file',upload.single('image'),(req, res, next) => {
 
     const image = req.file; //todo this is experimental and might not have a good browser compatibility
-    const question = req.body.question;
+    const question = req.body.question
 
     if (!image) {
         return res.status(400).send({message: 'Please upload an image.'});
@@ -44,7 +45,7 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
         return res.status(400).send({ message: 'Please upload a question.' });
     }
 
-    fs.writeFileSync("../vqa/input/question.txt", question, function(err) { //synchronous file write! (program execution waits...)
+    fs.writeFileSync("vqa/input/question.txt", question, function(err) { //synchronous file write! (program execution waits...)
         if(err) {
             return console.log(err);
         }
@@ -53,7 +54,8 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
 
     //run the python code and send the result!
     let answer;
-    const python = spawn('python', ['../vqa/script1.py']); // spawn new child process to call the python script//todo change to script.py
+    const python = spawn('python', ['vqa/script1.py']); // spawn new child process to call the python script//todo change to script.py
+    //todo put a version of pytorch in requirements.txt that supports cuda!
 
     // collect data from script
     python.stdout.on('data', function (data) {

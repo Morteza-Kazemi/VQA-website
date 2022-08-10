@@ -10,7 +10,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 
 # arguments:
-root_dir_vqa = '../vqa/'
+root_dir_vqa = 'vqa/'
 input_dir = root_dir_vqa+'utils'
 max_qst_length = 30
 max_num_ans = 10
