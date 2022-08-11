@@ -57,10 +57,11 @@ def main(args):
 
     # model output: give the inputs to the model
     # todo: this replication is unnecessary and has too much overhead!
-    image = np.array( [image.numpy() for i in range(args.batch_size)] )
+    data_replication_size = 1 # this used to batch_size!
+    image = np.array( [image.numpy() for i in range(data_replication_size)] )
     image = torch.tensor( image )
     # input("press enter to continue...")
-    question = torch.tensor( np.array( [np.array(question) for i in range(args.batch_size)] ) )
+    question = torch.tensor( np.array( [np.array(question) for i in range(data_replication_size)] ) )
     image_tnsr = image.to(device)
     question_tnsr = question.to(device)
     # input("press enter to continue...")
