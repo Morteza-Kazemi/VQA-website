@@ -14,7 +14,7 @@ app.use(cors()); // enable CORS
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 // app.use('/uploads', express.static('uploads'));// serving static files //todo should I use this?!
-// app.use(express.static(path.join(__dirname + "/public"))) // the build from the client //todo uncomment in production and building
+app.use(express.static(path.join(__dirname + "/public"))) // the build from the client //todo uncomment in production and building
 
 // handle storage using multer
 const storage = multer.diskStorage({

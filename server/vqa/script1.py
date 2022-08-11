@@ -8,7 +8,7 @@
 # img = Image.open('input/image.png')
 
 # img.show()
-print("answer!")
+print("answer! (from python script)")
 # print(question)
 
 # print("hey! Python has run", end='')
