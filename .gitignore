@@ -24,9 +24,8 @@ client/yarn-error.log*
 
 
 # * server directory *:
-/server/node_modules
-/server/.git
-/server/public
-/server/vqa/utils/model-epoch-*.ckpt
-/server/vqa/utils/__pycache__
-/server/vqa/input/*
+server/node_modules
+server/.git
+server/public
+server/vqa/utils/model-epoch-*.ckpt
+server/vqa/utils/__pycache__
