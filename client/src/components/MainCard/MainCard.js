@@ -47,17 +47,17 @@ const onFileUpload = async (setErrorTxt, setAnswer, selectedFile, inputQuestion)
     } else {
         setErrorTxt("");
 
-    // Create an object of formData
-    const formData = new FormData();
-    // Update the formData object
-    // todo this function should convert the extension of the files to png! only png!
-    formData.append("image", selectedFile, selectedFile.name);
-    formData.append("question", inputQuestion);
+        // Create an object of formData
+        const formData = new FormData();
+        // Update the formData object
+        // todo this function should convert the extension of the files to png! only png!
+        formData.append("image", selectedFile, selectedFile.name);
+        formData.append("question", inputQuestion);
 
-    setAnswer("running the model...");
-    // Request made to the backend api
-    const response = await axios.post("http://localhost:4000/upload-file", formData); // Send formData object
-    setAnswer(response.data.answer)
+        setAnswer("running the model...");
+        // Request made to the backend api
+        const response = await axios.post("http://localhost:4000/upload-file", formData); // Send formData object
+        setAnswer(response.data.answer)
     }
 };
 

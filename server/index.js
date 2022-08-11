@@ -14,7 +14,7 @@ app.use(cors()); // enable CORS
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 // app.use('/uploads', express.static('uploads'));// serving static files //todo should I use this?!
-app.use(express.static(path.join(__dirname + "/public"))) // the build from the client
+// app.use(express.static(path.join(__dirname + "/public"))) // the build from the client //todo uncomment in production and building
 
 // handle storage using multer
 const storage = multer.diskStorage({
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-        cb(null, `${file.fieldname}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}${path.extname(file.originalname)}`);//todo does writing .png cause any problems here?
     }
 });
 
@@ -54,7 +54,7 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
 
     //run the python code and send the result!
     let answer;
-    const python = spawn('python', ['vqa/script1.py']); // spawn new child process to call the python script//todo change to script.py
+    const python = spawn('python', ['vqa/script.py']); // spawn new child process to call the python script//todo change to script.py
     //todo put a version of pytorch in requirements.txt that supports cuda!
 
     // collect data from script

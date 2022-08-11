@@ -26,9 +26,7 @@ client/yarn-error.log*
 # * server directory *:
 server/node_modules
 server/.git
-# client code built for production
-server/public/*
+# todo client code built for production: server/public/*
 server/vqa/utils/model-epoch-*.ckpt
 server/vqa/utils/__pycache__
-# gitignore file for production
-server/.gitignore
+# todo gitignore file for production: server/.gitignore
