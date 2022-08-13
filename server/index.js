@@ -7,7 +7,8 @@ const {spawn} = require('child_process');
 const fs = require('fs');
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;// todo!
+// const port = 4000;
 
 
 app.use(cors()); // enable CORS
@@ -54,7 +55,7 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
 
     //run the python code and send the result!
     let answer;
-    const python = spawn('python', ['vqa/script.py']); // spawn new child process to call the python script//todo change to script.py
+    const python = spawn('python', ['vqa/script1.py']); // spawn new child process to call the python script//todo change to script.py
     //todo put a version of pytorch in requirements.txt that supports cuda!
 
     // collect data from script

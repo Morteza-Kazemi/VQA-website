@@ -1,2 +1,6 @@
 # dependencies
 /node_modules
+
+# todo only for testing heroku connection with python!
+/vqa/script.py
+/vqa/utils
