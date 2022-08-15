@@ -55,8 +55,8 @@ const onFileUpload = async (setErrorTxt, setAnswer, selectedFile, inputQuestion)
         formData.append("question", inputQuestion);
 
         setAnswer("running the model...");
-        // Request made to the backend api //todo change the port back to 4000(http://localhost:5000) when working on your local machine!
-        const response = await axios.post("http://online-vqa.herokuapp.com/upload-file", formData); // Send formData object //todo sometimes it is 5000, how about 4000? never?! this is so important!
+        // Request made to the backend api //todo: http://online-vqa.herokuapp.com change the port back to 4000(http://localhost:5000) when working on your local machine!
+        const response = await axios.post("http://localhost:5000"+"/upload-file", formData); // Send formData object //todo sometimes it is 5000, how about 4000? never?! this is so important!
         setAnswer(response.data.answer)
     }
 };

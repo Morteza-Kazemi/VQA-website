@@ -35,7 +35,7 @@ const upload = multer({storage: storage});
 
 // handle single file upload
 app.post('/upload-file',upload.single('image'),(req, res, next) => {
-
+    console.log('server received a request')
     const image = req.file; //todo this is experimental and might not have a good browser compatibility
     const question = req.body.question
 
@@ -55,7 +55,7 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
 
     //run the python code and send the result!
     let answer;
-    const python = spawn('python', ['vqa/script1.py']); // spawn new child process to call the python script//todo change to script.py
+    const python = spawn('python', ['vqa/script.py']); // spawn new child process to call the python script//todo change to script.py
     //todo put a version of pytorch in requirements.txt that supports cuda!
 
     // collect data from script
