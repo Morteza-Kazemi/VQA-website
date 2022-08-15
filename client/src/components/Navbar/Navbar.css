@@ -1,10 +1,12 @@
 .App-navbar {
-    background-image: linear-gradient(#ffb153,#ffb153, #282c34);
-    /*background-color: #ffb153; !*#90B0FF*!*/
-    backdrop-filter: ;
+    background-image: linear-gradient( rgba(255,177,83,1) 0%, rgba(255,177,83,1) 80%, rgba(255,177,83,0.7) 100%);
+            /*linear-gradient(#ffb153, #282c34);*/
+    /*color: rgba(111, 182, 255, 0.37);*/
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1);
+
     font-size: 50px;
     font-style: italic;
     display: flex;
     justify-content: center;
-    padding: 5px 0 40px;
+    padding: 5px 0 20px;
 }

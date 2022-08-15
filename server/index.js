@@ -15,7 +15,8 @@ app.use(cors()); // enable CORS
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 // app.use('/uploads', express.static('uploads'));// serving static files //todo should I use this?!
-app.use(express.static(path.join(__dirname + "/public"))) // the build from the client //todo uncomment in production and building
+//todo uncomment in production and building
+// app.use(express.static(path.join(__dirname + "/public"))) // the build from the client
 
 // handle storage using multer
 const storage = multer.diskStorage({
@@ -23,12 +24,12 @@ const storage = multer.diskStorage({
         cb(null, 'vqa/input');
     },
     filename: function (req, file, cb) {
-        // cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-        cb(null, `${file.fieldname}${path.extname(file.originalname)}`);//todo does writing .png cause any problems here?
+        //save the image as a .png file. works fine with the following extensions: .jpg, .jfif, .webp, .jpeg, .png
+        cb(null, `${file.fieldname}.png`);//${path.extname(file.originalname)}
     }
 });
 
-//todo delete the image and question when you are done! image extension may differ -> overwriting it won't work!
+//todo delete the image and question when you are done! overwriting it works however!
 
 const upload = multer({storage: storage});
 
@@ -36,7 +37,8 @@ const upload = multer({storage: storage});
 // handle single file upload
 app.post('/upload-file',upload.single('image'),(req, res, next) => {
     console.log('server received a request')
-    const image = req.file; //todo this is experimental and might not have a good browser compatibility
+    //todo this is experimental and might not have a good browser compatibility
+    const image = req.file;
     const question = req.body.question
 
     if (!image) {
@@ -53,10 +55,11 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
         console.log("Question file was saved!");
     });
 
+    console.log('server starting the python script...')
     //run the python code and send the result!
     let answer;
-    const python = spawn('python', ['vqa/script.py']); // spawn new child process to call the python script//todo change to script.py
-    //todo put a version of pytorch in requirements.txt that supports cuda!
+    //todo change to script.py for production
+    const python = spawn('python', ['vqa/script.py']); // spawn new child process to call the python script
 
     // collect data from script
     python.stdout.on('data', function (data) {
@@ -66,9 +69,7 @@ app.post('/upload-file',upload.single('image'),(req, res, next) => {
 
     // in close event we are sure that stream from child process is closed
     python.on('close', (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        console.log(answer)
-        console.log("server is sending the result back!")
+        console.log(`child process close all stdio with code ${code} answer is ${answer}`);
         return res.status(200).send({message: 'successful', answer});
     });
 });
