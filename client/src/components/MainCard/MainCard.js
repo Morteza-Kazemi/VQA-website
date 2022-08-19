@@ -1,17 +1,53 @@
 import axios from 'axios';
 import React, {useState} from 'react';
 import './Main-card.css'
+import './Modal.css'
+import likeIcon from "../../icons/like-icon.png";
+import Modal from 'react-modal';
 
 const MainCard = () => {
 
-    const [selectedFile, setSelectedFile] = useState(null); // Initially, no file is selected
     const [inputQuestion, setInputQuestion] = useState("");
     const [errorTxt, setErrorTxt] = useState("");
     const [answer, setAnswer] = useState("");
+    const [selectedFile, setSelectedFile] = useState(null); // Initially, no file is selected
 
-    let answer_section = <div className="answer-section">
-        {answer}
-    </div>;
+    const [liked, setLiked] = useState(null); // Initially, no like/dislike!
+    const [userCorrection, setUserCorrection] = useState(""); // users correction of the answer
+
+
+    // let subtitle;
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [visibleCorrectionTextBox, setVisibleCorrectionTextBox] = useState(false);
+
+    function openModal() {setModalIsOpen(true);}
+    // function afterOpenModal() {subtitle.style.color = '#f00';}
+    function closeModal() {setModalIsOpen(false); setVisibleCorrectionTextBox(false)}
+    function showCorrectionTextBox() { setVisibleCorrectionTextBox(true)  }
+
+
+    const inside_modal = visibleCorrectionTextBox ? (
+            <>
+                <h4>Thanks for your feedback!</h4>
+                <input className="correction-input" type="text"
+                       placeholder="Please enter your suggested answer here!"
+                    // onChange={(event) => setInputQuestion(event.target.value)}
+                />
+            </>)
+        : (
+            <>
+                <h4>Was it a good answer?</h4>
+                <div style={{display: !visibleCorrectionTextBox ? 'flex' : 'none'}} className="like-dislike">
+                    <div className="button dislike-button" onClick={showCorrectionTextBox}>
+                        <img src={likeIcon} alt="like"/>
+                    </div>
+
+                    <div className="button like-button" onClick={closeModal}> {/*todo also set liked!*/}
+                        <img src={likeIcon} alt="like"/>
+                    </div>
+                </div>
+            </>
+        );
 
     return (
         <div className="App-body">
@@ -31,7 +67,27 @@ const MainCard = () => {
             </div>
 
             {/*todo this is sooo wrong! everything about it! change it asap*/}
-            {answer_section}
+            <div className="answer-section">
+                {answer} heeey!
+            </div>
+
+            <button onClick={openModal}>
+                fake button
+            </button>
+
+            <Modal className="modal-card"
+                   isOpen={modalIsOpen}
+                // onAfterOpen={afterOpenModal}
+                // onRequestClose={closeModal} //esc or clicking somewhere
+                // contentLabel="detail-card"
+            >
+                {inside_modal}
+                <button onClick={closeModal}>close</button>
+
+
+            </Modal>
+
+
         </div>
     );
 

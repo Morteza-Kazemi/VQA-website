@@ -35,3 +35,7 @@
 .main-card .error-text {
     color: #8c1111;
 }
+
+.answer-section {
+    background-color: red;
+}
