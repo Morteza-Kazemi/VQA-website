@@ -5,6 +5,7 @@ import './Modal.css'
 import likeIcon from "../../icons/like-icon.png";
 import Modal from 'react-modal';
 
+const serverAddress = "http://localhost:5000";
 const MainCard = () => {
 
     const [inputQuestion, setInputQuestion] = useState("");
@@ -12,42 +13,64 @@ const MainCard = () => {
     const [answer, setAnswer] = useState("");
     const [selectedFile, setSelectedFile] = useState(null); // Initially, no file is selected
 
+    //todo reset all variables for a new question and/or image correctly!
     const [liked, setLiked] = useState(null); // Initially, no like/dislike!
     const [userCorrection, setUserCorrection] = useState(""); // users correction of the answer
 
 
-    // let subtitle;
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [visibleCorrectionTextBox, setVisibleCorrectionTextBox] = useState(false);
 
-    function openModal() {setModalIsOpen(true);}
+    function openModal() {
+        setLiked(null);
+        setUserCorrection("");
+        setModalIsOpen(true);
+    }
     // function afterOpenModal() {subtitle.style.color = '#f00';}
-    function closeModal() {setModalIsOpen(false); setVisibleCorrectionTextBox(false)}
-    function showCorrectionTextBox() { setVisibleCorrectionTextBox(true)  }
+    function closeModal(selectedFile) {
+        setModalIsOpen(false);
+        //todo send it to server to write in the DB!
+        console.log("liked: ",liked, "correction: ", userCorrection)
+        // Create an object of formData
+        const formData = new FormData();
+        formData.append("image", selectedFile, selectedFile.name);
+        formData.append("answer", answer);
+        formData.append("liked", liked === null ? "" : liked.toString());
+        formData.append("correction", userCorrection);
+        axios.post(serverAddress+"/feedback", formData);
+    }
 
-
-    const inside_modal = visibleCorrectionTextBox ? (
+    const inside_modal = <>{
+        liked===false ? (
             <>
                 <h4>Thanks for your feedback!</h4>
-                <input className="correction-input" type="text"
-                       placeholder="Please enter your suggested answer here!"
-                    // onChange={(event) => setInputQuestion(event.target.value)}
-                />
+                <div className="input-correction">
+                    <input type="text"
+                           placeholder="Please enter your suggested answer here!"
+                           onChange={(event) => setUserCorrection(event.target.value)}
+                    />
+                    <button onClick={()=>closeModal(selectedFile)}>
+                        submit
+                    </button>
+                </div>
             </>)
         : (
             <>
                 <h4>Was it a good answer?</h4>
-                <div style={{display: !visibleCorrectionTextBox ? 'flex' : 'none'}} className="like-dislike">
-                    <div className="button dislike-button" onClick={showCorrectionTextBox}>
+                <div className="like-dislike">
+                    <div className="button dislike-button" onClick={()=>setLiked(false)}> {/*todo this is not updated! so likes are not being monitored!*/}
                         <img src={likeIcon} alt="like"/>
                     </div>
 
-                    <div className="button like-button" onClick={closeModal}> {/*todo also set liked!*/}
+                    <div className="button like-button" onClick={()=> {setUserCorrection("correct"); setLiked(true); closeModal(selectedFile);}}>
                         <img src={likeIcon} alt="like"/>
                     </div>
                 </div>
             </>
-        );
+        )
+        }
+        <button onClick={()=>{setUserCorrection(""); closeModal(selectedFile);}}>close</button>
+    </>
+    ;
 
     return (
         <div className="App-body">
@@ -82,8 +105,6 @@ const MainCard = () => {
                 // contentLabel="detail-card"
             >
                 {inside_modal}
-                <button onClick={closeModal}>close</button>
-
 
             </Modal>
 
@@ -112,7 +133,7 @@ const onFileUpload = async (setErrorTxt, setAnswer, selectedFile, inputQuestion)
 
         setAnswer("running the model...");
         // Request made to the backend api //todo: http://online-vqa.herokuapp.com change the port back to 4000(http://localhost:5000) when working on your local machine!
-        const response = await axios.post("http://localhost:5000"+"/upload-file", formData); // Send formData object //todo sometimes it is 5000, how about 4000? never?! this is so important!
+        const response = await axios.post(serverAddress+"/upload-file", formData); // Send formData object //todo sometimes it is 5000, how about 4000? never?! this is so important!
         setAnswer(response.data.answer)
     }
 };
