@@ -6,7 +6,7 @@ const express = require("express");
 const app = express();
 
 //todo these addresses should change!
-const python_script = 'vqa/script.py';     //todo change to script.py for production
+const python_script = 'vqa/script1.py';     //todo change to script.py for production
 const image_file = "vqa/input/image.png";
 const question_file = "vqa/input/question.txt";
 const image_save_dir = 'vqa/input';
