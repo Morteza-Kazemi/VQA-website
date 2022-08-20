@@ -1,6 +1,6 @@
-import fs from "fs";
-import multer from "multer";
-import {spawn} from "child_process";
+const fs = require("fs");
+const multer = require("multer");
+const {spawn} = require("child_process");
 
 const express = require("express");
 const app = express();

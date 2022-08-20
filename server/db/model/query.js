@@ -24,6 +24,14 @@ const querySchema = new Schema({
     date_uploaded: {
         type: Date,
         required: true,
+    },
+    liked: {
+        type: String,
+        required: true,
+    },
+    user_correction: {
+        type: String,
+        required: true,
     }
 })
 

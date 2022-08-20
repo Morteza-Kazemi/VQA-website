@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-for
 //todo uncomment in production and building
 // app.use(express.static(path.join(__dirname + "/public"))) // the build from the client
 
+app.use(require("./route/feedback"));
 app.use(require("./route/uploadFile"));
 // app.use(require("./route/history"));
-// app.use(require("./route/feedback"));
 
 const db = mongoose.connection;
 mongoose.connect( config.dbUrl, { useNewUrlParser: true, useUnifiedTopology: true} );

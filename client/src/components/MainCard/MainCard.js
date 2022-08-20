@@ -6,6 +6,7 @@ import likeIcon from "../../icons/like-icon.png";
 import Modal from 'react-modal';
 
 const serverAddress = "http://localhost:5000";
+
 const MainCard = () => {
 
     const [inputQuestion, setInputQuestion] = useState("");
@@ -34,6 +35,7 @@ const MainCard = () => {
         const formData = new FormData();
         formData.append("image", selectedFile, selectedFile.name);
         formData.append("answer", answer);
+        formData.append("question", inputQuestion);
         formData.append("liked", liked === null ? "" : liked.toString());
         formData.append("correction", userCorrection);
         axios.post(serverAddress+"/feedback", formData);
