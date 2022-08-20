@@ -26,7 +26,7 @@ const MainCard = () => {
         setModalIsOpen(true);
     }
     // function afterOpenModal() {subtitle.style.color = '#f00';}
-    function closeModal(selectedFile) {
+    async function closeModal(selectedFile) {
         setModalIsOpen(false);
         //todo send it to server to write in the DB!
         console.log("liked: ",liked, "correction: ", userCorrection)
@@ -69,8 +69,7 @@ const MainCard = () => {
         )
         }
         <button onClick={()=>{setUserCorrection(""); closeModal(selectedFile);}}>close</button>
-    </>
-    ;
+    </>;
 
     return (
         <div className="App-body">
@@ -144,7 +143,6 @@ const fileData = (selectedFile) => {
         return (
             <div>
                 <img src={URL.createObjectURL(selectedFile)} alt="alt text!"/>
-                {/*<p>File Type: {this.state.selectedFile.type}</p>*/}
             </div>
         );
     } else {
