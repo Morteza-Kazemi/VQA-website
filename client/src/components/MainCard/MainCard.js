@@ -113,6 +113,7 @@ const MainCard = () => {
 
             <Modal className="modal-card"
                    isOpen={modalIsOpen}
+                   ariaHideApp={false} //todo This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.
                 // onAfterOpen={afterOpenModal}
                 // onRequestClose={closeModal} //esc or clicking somewhere
                 // contentLabel="detail-card"

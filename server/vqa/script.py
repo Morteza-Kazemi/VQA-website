@@ -81,7 +81,7 @@ if __name__ == '__main__':
     parser.add_argument( '--input_dir', type=str, default='vqa/utils', help='')
     parser.add_argument( '--image_file_location', type=str, default='vqa/input/image.png', help='')
     parser.add_argument( '--question_file_location', type=str, default='vqa/input/question.txt', help='')
-    parser.add_argument( '--model_location', type=str, default='vqa/utils/model-epoch-01.ckpt', help='')
+    parser.add_argument( '--model_location', type=str, default='vqa/utils/model-epoch-11.ckpt', help='')
 
     parser.add_argument('--max_qst_length', type=int, default=30, help='maximum length of question. \
 #                               the length in the VQA dataset = 26.')
